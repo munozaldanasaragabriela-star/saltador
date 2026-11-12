@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SALTADOR · Corre, salta y demuestra lo que sabes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&display=swap">
+<style>
+:root{--bg:#eceefb;--card:#fff;--ink:#14163a;--mut:#5c6088;--acc:#4f46e5;--acc2:#3b34c4;--onacc:#fff;--ok:#15803d;--bad:#c2243b;--amb:#d97706;--line:#d9dcf3;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1030;--card:#171a4a;--ink:#eef0ff;--mut:#a0a5dc;--acc:#8b86ff;--acc2:#a9a5ff;--onacc:#10123a;--ok:#4ade80;--bad:#ff7088;--amb:#fbbf24;--line:#2b2f6e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1030;--card:#171a4a;--ink:#eef0ff;--mut:#a0a5dc;--acc:#8b86ff;--acc2:#a9a5ff;--onacc:#10123a;--ok:#4ade80;--bad:#ff7088;--amb:#fbbf24;--line:#2b2f6e;color-scheme:dark}
+*{box-sizing:border-box}html{height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:500 16px/1.5 "Sora",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{margin:0;line-height:1.12;font-weight:800;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+#app{max-width:860px;margin:0 auto;padding:14px 16px 96px}
+.scr{animation:in .3s ease both}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hd{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:4px 0 10px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 12px;font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+.btn{display:block;width:100%;background:var(--acc);color:var(--onacc);border-radius:12px;padding:14px 20px;font-weight:700;transition:filter .15s,transform .1s}
+.btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.985)}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.amb{background:var(--amb);color:#fff}
+.btn:disabled{opacity:.4;pointer-events:none}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);border-radius:9px;transition:width .3s}
+.hero{padding:28px 0 16px}.hero h1{font-size:clamp(38px,10vw,70px)}.hero p{color:var(--mut);max-width:54ch;margin:10px 0 0}
+.lg{font-weight:700;font-size:12px;color:var(--acc);margin-bottom:8px;letter-spacing:.05em}
+input[type=text]{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:700 18px inherit;margin:8px 0 14px}
+.cols{display:flex;gap:10px;margin:8px 0 18px}.col{width:38px;height:38px;border-radius:50%;border:3px solid transparent}.col.on{border-color:var(--ink)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.big{font:800 42px/1 "Sora",system-ui,sans-serif}
+.row{display:flex;align-items:center;gap:12px;padding:10px 2px;border-bottom:1px solid var(--line)}.row:last-child{border:0}.row.me{background:var(--bg);border-radius:10px;padding:10px 12px}
+.r{margin-left:auto;font-weight:700}
+.tag{font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;border:1px solid var(--line);white-space:nowrap}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.bd{padding:12px;border-radius:12px;border:1px solid var(--line)}.bd.off{opacity:.4}.bd b{display:block}.bd small{color:var(--mut)}
+.tip{padding:10px 0;border-bottom:1px solid var(--line)}.tip:last-child{border:0}.tip p{margin:2px 0 0;color:var(--mut);font-size:14px}
+#cv{display:block;width:100%;aspect-ratio:800/360;border-radius:16px;border:2px solid var(--line);touch-action:none;background:#8bd}
+.jb{margin-top:10px;font-size:18px;padding:18px}
+.md{position:fixed;inset:0;background:rgba(6,8,30,.78);display:grid;place-items:center;padding:16px;z-index:20;overflow:auto}
+.mc{background:var(--card);border-radius:18px;max-width:520px;width:100%;padding:20px;max-height:94vh;overflow:auto;animation:in .25s both}
+.op{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:2px solid var(--line);border-radius:12px;padding:12px;margin-top:8px;font-weight:600;background:var(--card)}
+.op:hover:not(:disabled){border-color:var(--acc)}.op b{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--bg);flex:none}
+.op.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--card))}.op.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,var(--card))}
+.q{font-size:20px;font-weight:700;margin:10px 0 6px;line-height:1.25}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;max-width:140px;border-radius:10px;padding:9px 2px;font-weight:700;font-size:13px;color:var(--mut)}nav button.on{background:var(--bg);color:var(--acc)}
+.toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;z-index:30;animation:in .3s both;font-weight:700;max-width:92vw;text-align:center}
+.mut{color:var(--mut)}.hrt{color:var(--bad);letter-spacing:2px}
+@media (prefers-reduced-motion:reduce){.scr,.toast,.mc{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav id="nav" hidden></nav>
+<script>
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var W=800,H=360,GY=290,PX=130,MAXL=8;
+var CAT=["Geografía","Historia","Ciencia","Arte y literatura","Tecnología","Deportes y mundo"];
+var Q=[
+[0,"¿Cuál es la capital de Australia?",["Sídney","Melbourne","Canberra","Perth"],2,"Canberra se creó como capital de compromiso entre Sídney y Melbourne."],
+[0,"¿Cuál es el río más caudaloso del mundo?",["Nilo","Amazonas","Misisipi","Yangtsé"],1,"El Amazonas tiene el mayor caudal. El Nilo disputa el título de más largo."],
+[0,"¿Cuál es el océano más grande?",["Atlántico","Índico","Ártico","Pacífico"],3,"El Pacífico cubre cerca de un tercio de la superficie del planeta."],
+[0,"¿Qué país es el más extenso del mundo?",["Canadá","China","Rusia","Estados Unidos"],2,"Rusia supera los 17 millones de km²."],
+[0,"¿Cuál es la montaña más alta sobre el nivel del mar?",["K2","Everest","Aconcagua","Kilimanjaro"],1,"El Everest, en el Himalaya, mide unos 8.849 metros."],
+[0,"¿Cuál es la flor nacional de Colombia?",["Rosa","Girasol","Orquídea","Heliconia"],2,"La orquídea Cattleya trianae es la flor nacional."],
+[0,"¿Cuántos países reconocidos tiene África?",["34","54","74","94"],1,"África tiene 54 países reconocidos por la ONU."],
+[1,"¿En qué año llegó Colón a América?",["1392","1492","1592","1692"],1,"Llegó el 12 de octubre de 1492."],
+[1,"¿En qué año cayó el Muro de Berlín?",["1979","1985","1989","1995"],2,"Cayó el 9 de noviembre de 1989 y simbolizó el fin de la Guerra Fría."],
+[1,"¿Qué civilización construyó Machu Picchu?",["Maya","Azteca","Inca","Olmeca"],2,"Los incas la levantaron en el siglo XV."],
+[1,"¿En qué año empezó la Primera Guerra Mundial?",["1905","1914","1918","1939"],1,"Comenzó en 1914 tras el asesinato del archiduque Francisco Fernando."],
+[1,"¿Quién fue el primer presidente de Estados Unidos?",["Abraham Lincoln","Thomas Jefferson","George Washington","John Adams"],2,"George Washington gobernó de 1789 a 1797."],
+[1,"¿En qué año fue el Grito de Independencia del 20 de julio en Bogotá?",["1781","1810","1819","1830"],1,"Fue en 1810; la independencia se consolidó en 1819."],
+[2,"¿Cuál es el planeta más cercano al Sol?",["Venus","Marte","Mercurio","Tierra"],2,"Mercurio orbita a unos 58 millones de km del Sol."],
+[2,"¿Cuál es el símbolo químico del oro?",["Or","Au","Ag","Go"],1,"Au viene del latín aurum."],
+[2,"¿Cuántos huesos tiene un adulto?",["186","206","226","256"],1,"Un adulto tiene 206 huesos; los bebés tienen más."],
+[2,"¿Qué gas es el más abundante en la atmósfera?",["Oxígeno","Nitrógeno","Dióxido de carbono","Hidrógeno"],1,"El nitrógeno es cerca del 78 %; el oxígeno, cerca del 21 %."],
+[2,"¿Quién formuló la teoría de la relatividad?",["Newton","Galileo","Einstein","Bohr"],2,"Albert Einstein la desarrolló entre 1905 y 1915."],
+[2,"¿Cuál es el hueso más largo del cuerpo humano?",["Húmero","Tibia","Fémur","Peroné"],2,"El fémur está en el muslo."],
+[3,"¿Quién escribió «Cien años de soledad»?",["Mario Vargas Llosa","Gabriel García Márquez","Julio Cortázar","Jorge Luis Borges"],1,"García Márquez ganó el Nobel de Literatura en 1982."],
+[3,"¿Quién pintó «La noche estrellada»?",["Monet","Picasso","Van Gogh","Dalí"],2,"Vincent van Gogh la pintó en 1889."],
+[3,"¿Quién escribió «Don Quijote de la Mancha»?",["Lope de Vega","Cervantes","Quevedo","Góngora"],1,"Miguel de Cervantes publicó la primera parte en 1605."],
+[3,"¿Quién pintó la Mona Lisa?",["Leonardo da Vinci","Rafael","Miguel Ángel","Botticelli"],0,"Leonardo la pintó hacia 1503; hoy está en el Louvre."],
+[3,"¿De qué nacionalidad era el compositor Beethoven?",["Austriaco","Alemán","Francés","Italiano"],1,"Ludwig van Beethoven nació en Bonn, Alemania."],
+[4,"¿Quién fundó Microsoft junto con Paul Allen?",["Steve Jobs","Bill Gates","Elon Musk","Mark Zuckerberg"],1,"Bill Gates y Paul Allen la fundaron en 1975."],
+[4,"¿Quién propuso la World Wide Web?",["Tim Berners-Lee","Bill Gates","Linus Torvalds","Larry Page"],0,"Tim Berners-Lee la propuso en 1989 en el CERN."],
+[4,"¿En qué año se presentó el primer iPhone?",["2003","2005","2007","2010"],2,"Steve Jobs lo presentó en enero de 2007."],
+[4,"¿Qué lenguaje se usa para estructurar páginas web?",["HTML","Python","SQL","C++"],0,"HTML define la estructura; CSS, el estilo."],
+[4,"¿Qué significa «IA»?",["Interfaz Analógica","Inteligencia Artificial","Internet Avanzado","Información Automática"],1,"Es la capacidad de las máquinas para realizar tareas que normalmente requieren inteligencia humana."],
+[5,"¿Cada cuántos años se celebran los Juegos Olímpicos de verano?",["2","3","4","5"],2,"Se celebran cada cuatro años."],
+[5,"¿Qué país fue sede del Mundial de fútbol 2022?",["Rusia","Catar","Brasil","Alemania"],1,"Catar organizó el torneo; Argentina fue campeona."],
+[5,"¿De qué país es originario el tango?",["España","México","Argentina","Chile"],2,"Nació en la región del Río de la Plata, entre Argentina y Uruguay."],
+[5,"¿Cuál es la moneda de Japón?",["Won","Yuan","Yen","Ringgit"],2,"El yen es una de las monedas más negociadas del mundo."],
+[5,"¿Cuál es el idioma con más hablantes nativos?",["Inglés","Español","Chino mandarín","Hindi"],2,"El mandarín supera los 900 millones de hablantes nativos."],
+[5,"¿Cuántos colores tiene el arcoíris tradicional?",["5","6","7","8"],2,"Rojo, naranja, amarillo, verde, azul, añil y violeta."]];
+var TH=[["Campo","#7ec8ff","#d6f0ff","#8bcf8a","#5fae6a","#fff3b0","#6b4f2a"],["Desierto","#ffb26b","#ffe3b0","#e8b36a","#d99a52","#fff1c9","#b9803f"],["Selva","#5fd1a0","#c8f5dc","#2f9e6e","#1f7a53","#f5ffd1","#4a3320"],["Ciudad","#7a8cff","#cfd6ff","#8d97c9","#6b75a8","#ffffff","#3d4260"],["Montaña","#8ec5ff","#eaf4ff","#9aa7bd","#728098","#fff6d6","#5a5a5a"],["Nieve","#bfe3ff","#f4fbff","#dbe9f5","#b4cde3","#ffffff","#d5e6f2"],["Noche","#14183d","#3a3470","#2b2f66","#1d2050","#e8ecff","#14152e"],["Espacio","#05010f","#2a0f4d","#3c1e6b","#291350","#ffd1f0","#1b0f33"]];
+var COLS=["#4f46e5","#e11d48","#059669","#d97706","#7c3aed","#0891b2"];
+var BD=[
+{id:"first",n:"Primera carrera",d:"Termina una carrera",f:function(s){return s.games>=1}},
+{id:"l4",n:"A mitad de camino",d:"Llega al nivel 4",f:function(s){return s.bestLvl>=4}},
+{id:"win",n:"Campeón/a",d:"Completa los 8 niveles",f:function(s){return s.wins>=1}},
+{id:"sq5",n:"Racha del saber",d:"Acierta 5 preguntas seguidas",f:function(s){return s.bq>=5}},
+{id:"clean",n:"Sin un rasguño",d:"Pasa un nivel sin perder vidas",f:function(s){return s.clean>=1}},
+{id:"rich",n:"Coleccionista",d:"Reúne 100 monedas",f:function(s){return s.coins>=100}},
+{id:"eru",n:"Erudito",d:"Acierta 30 preguntas en total",f:function(s){return s.qOk>=30}},
+{id:"str3",n:"Constancia",d:"Racha de 3 días",f:function(s){return s.streak>=3}}];
+var BOTS=[["Valentina",4800],["Mateo",3600],["Camila",2700],["Santiago",1900],["Isabella",1200],["Daniel",600]];
+var S,G,view="home",mem=null,RAF,QT,tmpCol=COLS[0];
+function day(d){d=d||new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function week(){var d=new Date(),j=new Date(d.getFullYear(),0,1);return d.getFullYear()+"w"+Math.ceil(((d-j)/864e5+j.getDay()+1)/7)}
+function lvl(s){return Math.floor(s.xp/150)+1}
+function blank(){return{name:"",col:COLS[0],xp:0,coins:0,streak:0,last:"",games:0,best:0,bestLvl:1,cur:1,wins:0,qOk:0,qTot:0,bq:0,clean:0,inv:{f:0,s:0,e:0},cat:{},bd:[],dc:{d:day(),q:0,l:0,cl:[]},wc:{w:week(),g:0,cl:[]}}}
+function load(){try{var r=localStorage.getItem("saltador.v1");if(r)return JSON.parse(r)}catch(e){}return mem?JSON.parse(mem):null}
+function save(){var j=JSON.stringify(S);mem=j;try{localStorage.setItem("saltador.v1",j)}catch(e){}}
+function toast(t){var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},2800)}
+function touch(){var t=day(),y=day(new Date(Date.now()-864e5));if(S.last!==t){S.streak=S.last===y?S.streak+1:1;S.last=t}if(S.dc.d!==t)S.dc={d:t,q:0,l:0,cl:[]};if(S.wc.w!==week())S.wc={w:week(),g:0,cl:[]}}
+function badges(){var n=[];BD.forEach(function(b){if(S.bd.indexOf(b.id)<0&&b.f(S)){S.bd.push(b.id);n.push(b)}});return n}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function go(v){view=v;render()}
+function hdr(){return '<div class="hd"><button class="chip" onclick="go(\'profile\')" aria-label="Perfil"><span style="width:14px;height:14px;border-radius:50%;background:'+S.col+'"></span>'+esc(S.name)+'</button><span><span class="chip">🔥 '+S.streak+'</span> <span class="chip">🪙 '+S.coins+'</span> <span class="chip">Nv '+lvl(S)+'</span></span></div>'}
+function nav(on){var a=[["home","Inicio"],["shop","Tienda"],["chal","Retos"],["rank","Ranking"],["profile","Perfil"]];var n=$("#nav");n.hidden=!on;n.innerHTML=a.map(function(x){return '<button class="'+(view===x[0]?"on":"")+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>'}).join("")}
+function render(){var a=$("#app"),h="",nv=true;
+if(!S||!S.name){nv=false;h=welcome()}
+else if(view==="game"){nv=false;h=gameUI()}
+else if(view==="result"){nv=false;h=result()}
+else{h=hdr()+({home:home,shop:shop,chal:chal,rank:rank,profile:profile}[view]||home)()}
+a.innerHTML='<div class="scr">'+h+'</div>';nav(nv);window.scrollTo(0,0)}
+function welcome(){return '<div class="hero"><div class="lg">CORRE · SALTA · RESPONDE</div><h1>SALTADOR</h1><p>Esquiva obstáculos hasta la meta de cada nivel. Allí te espera una pregunta de cultura general: si aciertas, avanzas; si fallas, retrocedes un nivel.</p></div><div class="card"><label for="nm"><b>Tu alias</b></label><input type="text" id="nm" maxlength="14" placeholder="Escribe tu nombre" autocomplete="off"><b>Color de tu muñeco</b><div class="cols">'+COLS.map(function(c){return '<button class="col'+(c===tmpCol?" on":"")+'" style="background:'+c+'" onclick="pickCol(\''+c+'\')" aria-label="Color '+c+'"></button>'}).join("")+'</div><button class="btn" onclick="start()">Empezar a correr</button></div>'}
+function pickCol(c){var v=$("#nm").value;tmpCol=c;render();$("#nm").value=v}
+function start(){var n=$("#nm").value.trim();if(!n){toast("Escribe tu alias para continuar");$("#nm").focus();return}S=blank();S.name=n;S.col=tmpCol;touch();save();view="home";render()}
+function home(){var p=S.xp%150;return '<div class="card"><div class="lg">CORREDOR</div><h2>Hola, '+esc(S.name)+'</h2><p class="mut" style="margin:6px 0 12px">Nivel '+lvl(S)+' · faltan '+(150-p)+' XP para el siguiente.</p><div class="bar"><i style="width:'+p/150*100+'%"></i></div></div>'+
+'<div class="card"><h3>Cómo se juega</h3><p class="mut" style="margin:8px 0 0">Tu muñeco corre solo. <b>Toca la pantalla, pulsa el botón Saltar o usa la barra espaciadora / flecha ↑</b> para saltar cajas, pinchos y huecos, y recoge monedas. Tienes 3 vidas por nivel. Al llegar a la meta aparece una pregunta: <b>si aciertas, subes de nivel; si fallas, bajas uno</b>. Hay 8 niveles con mundos distintos.</p></div><div class="card"><h3>Poderes</h3><p class="mut" style="margin:8px 0 0">Recoge las burbujas del camino: 🛡️ escudo (absorbe un golpe), 🧲 imán (atrae monedas), ⚡ doble salto y 🐢 cámara lenta. En la <b>Tienda</b> compras con tus monedas el comodín 50/50, el salvavidas y el escudo inicial.</p></div>'+
+'<button class="btn" onclick="play('+S.cur+')">'+(S.cur>1?"Continuar en el nivel "+S.cur:"Jugar")+'</button>'+(S.cur>1?'<div style="height:10px"></div><button class="btn ghost" onclick="play(1)">Nueva carrera desde el nivel 1</button>':"")+'<div style="height:14px"></div>'+
+'<div class="grid"><div class="card"><div class="big">'+S.bestLvl+'</div><div class="mut">nivel más alto</div></div><div class="card"><div class="big">'+(S.qTot?Math.round(S.qOk/S.qTot*100):0)+'%</div><div class="mut">preguntas acertadas</div></div></div>'}
+/* ---------- JUEGO ---------- */
+function gameUI(){return '<div class="hd"><button class="chip" onclick="quit()">Terminar</button><span class="chip" id="hn"></span><span class="chip hrt" id="hl"></span><span class="chip" id="hc">🪙 0</span><span class="chip" id="hp"></span><span class="chip" id="hs">0</span></div><div class="bar" style="margin-bottom:10px"><i id="pb" style="width:0%"></i></div><canvas id="cv" width="'+W+'" height="'+H+'" aria-label="Zona de juego"></canvas><button class="btn jb" id="jbt">Saltar</button>'}
+function play(l){G={lvl:l,score:0,coinsGot:0,ups:0,qOk:0,qTot:0,sq:0,msq:0,cleanN:0,learn:[],catUse:{},pool:[],cl:[],anim:0,paused:false,ended:false,jb:0,coy:0,shield:false,mag:0,dj:0,slow:0,aj:false,pus:[],last:performance.now(),win:false};
+for(var i=0;i<6;i++)G.cl.push({x:Math.random()*W,y:20+Math.random()*90,s:.7+Math.random()*.8});
+if(S.inv.e>0){S.inv.e--;G.shield=true;save()}view="game";render();setLvl(l);var cv=$("#cv");cv.addEventListener("pointerdown",jump);$("#jbt").addEventListener("pointerdown",function(e){e.preventDefault();jump()});cancelAnimationFrame(RAF);G.last=performance.now();RAF=requestAnimationFrame(loop)}
+function setLvl(l){G.lvl=l;G.dist=0;G.goal=2200+l*400;G.v=Math.min(520,240+l*24);G.obs=[];G.coins=[];G.pus=[];G.hearts=3;G.hit=false;G.gate=null;G.nx=G.v*1.3;G.y=GY;G.vy=0;G.fall=false;G.inv=0;G.bn=2.4;G.paused=false;S.cur=l;if(l>S.bestLvl)S.bestLvl=l;save();G.last=performance.now()}
+function jump(){if(!G||G.paused)return;if(G.dj>0&&G.y<GY-30&&!G.aj&&!G.fall){G.vy=-780;G.aj=true;G.jb=0;return}G.jb=.12}
+function over(){for(var i=0;i<G.obs.length;i++){var o=G.obs[i];if(o.t==="p"&&PX>o.x+8&&PX<o.x+o.w-8)return true}return false}
+function loop(now){if(view!=="game"||!G||G.ended)return;var dt=Math.min(.05,(now-G.last)/1000);G.last=now;if(!G.paused)update(dt);draw($("#cv").getContext("2d"));hud();RAF=requestAnimationFrame(loop)}
+function update(dt){var v=G.v*(G.slow>0?.65:1),L=G.lvl;if(G.mag>0)G.mag-=dt;if(G.dj>0)G.dj-=dt;if(G.slow>0)G.slow-=dt;G.anim+=dt*v/38;if(G.inv>0)G.inv-=dt;if(G.bn>0)G.bn-=dt;
+var gr=G.y>=GY-.5&&!G.fall;if(gr){G.coy=.09;G.aj=false}else G.coy-=dt;
+if(G.jb>0){G.jb-=dt;if((gr||G.coy>0)&&!G.fall&&G.vy>=-50){G.vy=-820;G.y=GY-1;G.coy=0;G.jb=0}}
+G.vy+=2400*dt;G.y+=G.vy*dt;
+if(G.y>=GY&&!G.fall){if(over()){G.fall=true}else{G.y=GY;G.vy=0}}
+if(G.fall&&G.y>H+50){G.fall=false;G.hearts--;G.hit=true;G.inv=1.6;G.y=GY;G.vy=0;G.obs=G.obs.filter(function(o){return !(o.t==="p"&&o.x<PX+300&&o.x+o.w>PX-120)});if(G.hearts<=0){lose();return}}
+G.dist+=v*dt;G.score+=v*dt/10;
+G.cl.forEach(function(c){c.x-=v*.08*dt;if(c.x<-80)c.x=W+60});
+if(!G.gate){G.nx-=v*dt;if(G.nx<=0&&G.dist<G.goal-500){var r=Math.random(),t=r<.5||L<2?"c":(r<.78||L<3?"s":"p"),o={t:t,x:W+30,w:t==="c"?30+Math.random()*14:t==="s"?42:90+Math.random()*40,h:t==="c"?32+Math.random()*26:28,done:false};G.obs.push(o);if(Math.random()<.5){for(var i=0;i<4;i++)G.coins.push({x:o.x+o.w/2-42+i*28,y:GY-100-(i===1||i===2?18:0)})}if(Math.random()<.22)G.pus.push({x:o.x-110,y:GY-100,k:["s","m","d","l"][Math.floor(Math.random()*4)]});G.nx=v*(.8+Math.random()*.45)+(t==="p"?110:70)}
+if(G.dist>=G.goal)G.gate={x:W+40}}
+G.obs=G.obs.filter(function(o){o.x-=v*dt;if(o.t!=="p"&&G.inv<=0&&!G.fall&&PX+10>o.x+4&&PX-10<o.x+o.w-4&&G.y>GY-o.h+6){if(G.shield){G.shield=false;G.inv=1;toast("Escudo usado");return false}G.hearts--;G.hit=true;G.inv=1.5;if(G.hearts<=0){lose()}return false}
+if(!o.done&&o.x+o.w<PX-12){o.done=true;G.score+=10}return o.x>-160});
+G.coins=G.coins.filter(function(c){c.x-=v*dt;if(G.mag>0&&Math.abs(c.x-PX)<230){c.x+=(PX-c.x)*Math.min(1,dt*6);c.y+=((G.y-30)-c.y)*Math.min(1,dt*6)}if(Math.abs(c.x-PX)<20&&Math.abs(c.y-(G.y-30))<30){G.coinsGot++;G.score+=5;return false}return c.x>-30});
+G.pus=G.pus.filter(function(p){p.x-=v*dt;if(Math.abs(p.x-PX)<26&&Math.abs(p.y-(G.y-30))<40){take(p.k);return false}return p.x>-30});if(G.gate){G.gate.x-=v*dt;if(G.gate.x<=PX+10){G.paused=true;showQ()}}}
+function man(c,x,y,a,air,inv){var s=Math.sin(a),k=air?.6:s;c.lineCap="round";c.lineWidth=6;c.strokeStyle="#2b2b45";
+c.beginPath();c.moveTo(x,y-22);c.lineTo(x+k*14+(air?8:0),y-(air?8:0));c.moveTo(x,y-22);c.lineTo(x-k*14,y-(air?14:0));c.stroke();
+c.fillStyle=S.col;c.beginPath();(c.roundRect||c.rect).call(c,x-11,y-48,22,28,6);c.fill();
+c.strokeStyle="#f1c27d";c.lineWidth=5;c.beginPath();c.moveTo(x,y-42);c.lineTo(x-k*10+(air?-6:0),y-30-(air?12:0));c.moveTo(x,y-42);c.lineTo(x+k*10+(air?10:0),y-30-(air?18:0));c.stroke();
+c.fillStyle="#f1c27d";c.beginPath();c.arc(x,y-58,11,0,7);c.fill();c.fillStyle="#3a2a1a";c.beginPath();c.arc(x,y-60,11,3.3,6.1);c.fill();c.fillStyle="#1a1a2a";c.beginPath();c.arc(x+4,y-57,1.8,0,7);c.fill()}
+function draw(c){var T=TH[(G.lvl-1)%8],g=c.createLinearGradient(0,0,0,GY);g.addColorStop(0,T[1]);g.addColorStop(1,T[2]);c.fillStyle=g;c.fillRect(0,0,W,H);
+c.fillStyle=T[5];c.globalAlpha=.85;c.beginPath();c.arc(660,66,28,0,7);c.fill();c.globalAlpha=1;
+c.fillStyle="rgba(255,255,255,.38)";G.cl.forEach(function(k){c.beginPath();c.arc(k.x,k.y,22*k.s,0,7);c.arc(k.x+24*k.s,k.y+4,17*k.s,0,7);c.arc(k.x-22*k.s,k.y+6,15*k.s,0,7);c.fill()});
+var x;c.fillStyle=T[3];c.beginPath();c.moveTo(0,GY);for(x=0;x<=W;x+=20)c.lineTo(x,GY-80-36*Math.sin((x+G.dist*.2)/120));c.lineTo(W,GY);c.fill();
+c.fillStyle=T[4];c.beginPath();c.moveTo(0,GY);for(x=0;x<=W;x+=20)c.lineTo(x,GY-34-22*Math.sin((x+G.dist*.45)/70+2));c.lineTo(W,GY);c.fill();
+c.fillStyle=T[6];c.fillRect(0,GY,W,H-GY);c.fillStyle="rgba(255,255,255,.18)";c.fillRect(0,GY,W,5);c.fillStyle="rgba(0,0,0,.14)";for(x=-(G.dist%70);x<W;x+=70)c.fillRect(x,GY+22,36,5);
+G.obs.forEach(function(o){if(o.t==="p"){c.fillStyle="#07070f";c.fillRect(o.x,GY,o.w,H-GY)}else if(o.t==="c"){c.fillStyle="#b9783a";c.fillRect(o.x,GY-o.h,o.w,o.h);c.strokeStyle="#7a4a1f";c.lineWidth=3;c.strokeRect(o.x+1.5,GY-o.h+1.5,o.w-3,o.h-3);c.beginPath();c.moveTo(o.x,GY-o.h);c.lineTo(o.x+o.w,GY);c.moveTo(o.x+o.w,GY-o.h);c.lineTo(o.x,GY);c.stroke()}else{c.fillStyle="#cfd3dd";for(var i=0;i<3;i++){c.beginPath();c.moveTo(o.x+i*14,GY);c.lineTo(o.x+i*14+7,GY-o.h);c.lineTo(o.x+i*14+14,GY);c.fill()}}});
+G.coins.forEach(function(k){c.beginPath();c.arc(k.x,k.y,9,0,7);c.fillStyle="#fbbf24";c.fill();c.strokeStyle="#b45309";c.lineWidth=2;c.stroke()});
+G.pus.forEach(function(p){var col={s:"#38bdf8",m:"#f472b6",d:"#a78bfa",l:"#34d399"}[p.k],by=p.y+Math.sin(G.dist/30)*4;c.beginPath();c.arc(p.x,by,20,0,7);c.globalAlpha=.4;c.fillStyle=col;c.fill();c.globalAlpha=1;c.lineWidth=3;c.strokeStyle=col;c.stroke();c.font="22px serif";c.textAlign="center";c.textBaseline="middle";c.fillStyle="#fff";c.fillText({s:"🛡️",m:"🧲",d:"⚡",l:"🐢"}[p.k],p.x,by+1)});if(G.gate){var q=G.gate.x;c.fillStyle="#fff";c.fillRect(q,GY-150,8,150);c.fillStyle="#14163a";c.beginPath();c.arc(q+40,GY-120,32,0,7);c.fill();c.fillStyle="#fbbf24";c.font="800 38px system-ui,sans-serif";c.textAlign="center";c.textBaseline="middle";c.fillText("?",q+40,GY-119);c.font="700 13px system-ui,sans-serif";c.fillStyle="#fff";c.fillText("META",q+4,GY-160)}
+if(G.inv<=0||Math.floor(G.dist/40)%2===0){var py=G.y;if(py<H+80)man(c,PX,py,G.anim,G.y<GY-2||G.fall,G.inv>0)}if(G.shield){c.beginPath();c.arc(PX,G.y-30,40,0,7);c.strokeStyle="rgba(56,189,248,.9)";c.lineWidth=3;c.stroke()}
+if(G.bn>0){c.globalAlpha=Math.min(1,G.bn);c.fillStyle="rgba(0,0,0,.5)";c.fillRect(0,H/2-46,W,70);c.fillStyle="#fff";c.textAlign="center";c.textBaseline="middle";c.font="800 32px system-ui,sans-serif";c.fillText("Nivel "+G.lvl+" · "+T[0],W/2,H/2-18);c.font="600 15px system-ui,sans-serif";c.fillText("Llega a la meta y responde la pregunta",W/2,H/2+10);c.globalAlpha=1}}
+function hud(){if(!$("#hs"))return;$("#hs").textContent="⭐ "+Math.floor(G.score);$("#hl").textContent="♥".repeat(Math.max(0,G.hearts))+"♡".repeat(3-Math.max(0,G.hearts));$("#hn").textContent="Nivel "+G.lvl+"/"+MAXL+" · "+TH[(G.lvl-1)%8][0];$("#hc").textContent="🪙 "+G.coinsGot;$("#hp").textContent=(G.shield?"🛡️ ":"")+(G.mag>0?"🧲"+Math.ceil(G.mag)+" ":"")+(G.dj>0?"⚡"+Math.ceil(G.dj)+" ":"")+(G.slow>0?"🐢"+Math.ceil(G.slow):"")||"Sin poderes";$("#pb").style.width=Math.min(100,G.dist/G.goal*100)+"%"}
+function quit(){if(confirm("¿Terminar la carrera? Tu nivel actual se guarda.")){if(G.paused)rmModal();finish(false)}}
+function lose(){G.paused=true;modal('<div class="lg">SIN VIDAS</div><h2>Te quedaste sin vidas en el nivel '+G.lvl+'</h2><p class="mut">Puedes volver a intentar el nivel o terminar la carrera.</p><button class="btn" style="margin-top:12px" onclick="retry()">Reintentar nivel '+G.lvl+'</button><button class="btn ghost" style="margin-top:10px" onclick="finish(false)">Terminar carrera</button>')}
+function retry(){rmModal();setLvl(G.lvl)}
+/* ---------- PREGUNTAS ---------- */
+function nextQ(){if(!G.pool.length)G.pool=shuf(Q.map(function(_,i){return i}));return Q[G.pool.pop()]}
+function rmModal(){var m=$("#md");if(m)m.remove()}
+function modal(h){rmModal();var d=document.createElement("div");d.className="md";d.id="md";d.innerHTML='<div class="mc" role="dialog" aria-modal="true">'+h+'</div>';document.body.appendChild(d)}
+function showQ(){var q=nextQ(),idx=shuf([0,1,2,3]);G.q={q:q,c:idx.indexOf(q[3]),opts:idx.map(function(i){return q[2][i]}),done:false,ok:false,tl:20};
+modal('<div class="lg">PREGUNTA DE META · NIVEL '+G.lvl+'</div><span class="tag">'+CAT[q[0]]+'</span><div class="q">'+esc(q[1])+'</div><p class="mut" style="margin:0 0 8px;font-size:14px">Si aciertas subes al nivel '+Math.min(MAXL,G.lvl+1)+(G.lvl>=MAXL?" (¡y completas el recorrido!)":"")+'. Si fallas, '+(G.lvl>1?"vuelves al nivel "+(G.lvl-1):"repites el nivel 1")+'.</p><div class="bar" style="margin:10px 0"><i id="qb" style="width:100%"></i></div><div id="qo">'+G.q.opts.map(function(o,i){return '<button class="op" onclick="answer('+i+')"><b>'+"ABCD"[i]+'</b>'+esc(o)+'</button>'}).join("")+'</div>'+(S.inv.f>0?'<button class="btn ghost" id="ff" style="margin-top:10px" onclick="fifty()">Comodín 50/50 (quedan '+S.inv.f+')</button>':"")+'<div id="qf"></div>');
+clearInterval(QT);QT=setInterval(function(){G.q.tl-=.1;var b=$("#qb");if(b){b.style.transition="none";b.style.width=Math.max(0,G.q.tl/20*100)+"%"}if(G.q.tl<=0)answer(-1)},100)}
+function answer(i){var Z=G.q;if(!Z||Z.done)return;Z.done=true;clearInterval(QT);var ok=i===Z.c,cat=Z.q[0],cu=G.catUse[cat]||(G.catUse[cat]=[0,0]);Z.ok=ok;G.qTot++;cu[1]++;
+if(ok){G.qOk++;G.sq++;G.msq=Math.max(G.msq,G.sq);cu[0]++;G.ups++;G.score+=200*G.lvl;if(!G.hit)G.cleanN++}else G.sq=0;
+G.learn.push({q:Z.q[1],a:Z.opts[Z.c],f:Z.q[4],ok:ok});
+var ff=$("#ff");if(ff)ff.remove();document.querySelectorAll("#qo .op").forEach(function(b,k){b.disabled=true;if(k===Z.c)b.classList.add("ok");else if(k===i)b.classList.add("no")});
+var msg=ok?(G.lvl>=MAXL?"¡Último nivel superado!":"¡Correcto! Pasas al nivel "+(G.lvl+1)+" (+"+200*G.lvl+" puntos)"):(i===-1?"Tiempo agotado. ":"Incorrecto. ")+(G.lvl>1?"Retrocedes al nivel "+(G.lvl-1):"Repites el nivel 1");
+$("#qf").innerHTML='<div class="card" style="margin:12px 0 10px"><b>'+msg+'</b><p class="mut" style="margin:6px 0 0">'+(ok?"":"Respuesta: «"+esc(Z.opts[Z.c])+"». ")+esc(Z.q[4])+'</p></div>'+(!ok&&S.inv.s>0?'<button class="btn amb" style="margin-bottom:10px" onclick="useSave()">Usar salvavidas: quedarme en el nivel '+G.lvl+' (quedan '+S.inv.s+')</button>':"")+'<button class="btn" onclick="cont()">Continuar</button>'}
+function cont(){var Z=G.q;rmModal();var nx=Z.ok?G.lvl+1:Math.max(1,G.lvl-1);if(nx>MAXL){finish(true);return}setLvl(nx)}
+function finish(win){if(G.ended)return;G.ended=true;G.win=!!win;cancelAnimationFrame(RAF);clearInterval(QT);rmModal();var sc=Math.floor(G.score),xp=Math.floor(sc/30)+G.qOk*10+G.ups*30,coins=G.coinsGot+G.ups*10,old=lvl(S);
+S.xp+=xp;S.coins+=coins;S.games++;S.wc.g++;S.qOk+=G.qOk;S.qTot+=G.qTot;S.dc.q+=G.qOk;S.dc.l+=G.ups;S.bq=Math.max(S.bq,G.msq);S.clean+=G.cleanN;if(win){S.wins++;S.cur=1}if(sc>S.best)S.best=sc;
+Object.keys(G.catUse).forEach(function(k){var a=S.cat[k]||(S.cat[k]=[0,0]);a[0]+=G.catUse[k][0];a[1]+=G.catUse[k][1]});
+G.res={sc:sc,xp:xp,coins:coins,up:lvl(S)>old,rec:sc>0&&sc>=S.best,nb:badges()};touch();save();view="result";render();G.res.nb.forEach(function(b,i){setTimeout(function(){toast("Insignia: "+b.n)},1400*(i+1))})}
+function result(){var r=G.res,acc=G.qTot?Math.round(G.qOk/G.qTot*100)+"%":"—";
+return '<div class="hero" style="padding-top:20px"><div class="lg">'+(G.win?"RECORRIDO COMPLETO":"FIN DE LA CARRERA")+'</div><div class="big" style="font-size:64px">'+r.sc+'</div><h2 style="margin-top:10px">'+(G.win?"¡Completaste los 8 niveles!":r.rec?"¡Nuevo récord!":"Buena carrera, "+esc(S.name))+'</h2></div><div class="card"><div class="row"><span>Nivel alcanzado en la carrera</span><span class="r">'+G.lvl+' de '+MAXL+'</span></div><div class="row"><span>Niveles superados</span><span class="r">'+G.ups+'</span></div><div class="row"><span>Preguntas acertadas</span><span class="r">'+G.qOk+' de '+G.qTot+' ('+acc+')</span></div><div class="row"><span>Monedas recogidas</span><span class="r">'+G.coinsGot+'</span></div><div class="row"><span>Experiencia</span><span class="r">+'+r.xp+' XP</span></div><div class="row"><span>Monedas totales ganadas</span><span class="r">+'+r.coins+'</span></div>'+(r.up?'<div class="row"><b>¡Subiste al nivel de jugador '+lvl(S)+'!</b></div>':"")+(r.nb.length?'<div class="row"><b>Insignias: '+r.nb.map(function(b){return b.n}).join(", ")+'</b></div>':"")+'</div>'+
+(G.learn.length?'<div class="card"><h3>Lo que viste en esta carrera</h3>'+G.learn.map(function(l){return '<div class="tip"><b>'+(l.ok?"✓ ":"✗ ")+esc(l.q)+'</b><p>'+esc(l.a)+'. '+esc(l.f)+'</p></div>'}).join("")+'</div>':"")+
+'<button class="btn" onclick="play('+(G.win?1:S.cur)+')">'+(G.win?"Volver a jugar":"Seguir desde el nivel "+S.cur)+'</button><div style="height:10px"></div>'+(!G.win&&S.cur>1?'<button class="btn ghost" onclick="play(1)">Nueva carrera desde el nivel 1</button><div style="height:10px"></div>':"")+'<button class="btn ghost" onclick="go(\'home\')">Ir al inicio</button>'}
+/* ---------- RETOS, RANKING, PERFIL ---------- */
+function chal(){var D=[["Pasa 2 niveles hoy","dl",S.dc.l,2,30],["Acierta 5 preguntas hoy","dq",S.dc.q,5,30]],Wk=[["Juega 5 carreras esta semana","wg",S.wc.g,5,50],["Mantén una racha de 3 días","ws",S.streak,3,40]];
+function box(a,k){return a.map(function(c){var done=c[2]>=c[3],cl=(k==="d"?S.dc.cl:S.wc.cl).indexOf(c[1])>=0;return '<div class="card"><div style="display:flex;gap:10px;align-items:center"><b>'+c[0]+'</b><span class="tag" style="margin-left:auto">+'+c[4]+' monedas</span></div><div class="bar" style="margin:12px 0"><i style="width:'+Math.min(100,c[2]/c[3]*100)+'%"></i></div><button class="btn '+(done&&!cl?"":"ghost")+'" '+(done&&!cl?'onclick="claim(\''+k+"','"+c[1]+"',"+c[4]+')"':"disabled")+'>'+(cl?"Reclamado":done?"Reclamar recompensa":Math.min(c[2],c[3])+" / "+c[3])+'</button></div>'}).join("")}
+return '<h2>Retos diarios</h2><p class="mut" style="margin:4px 0 12px">Se renuevan cada día.</p>'+box(D,"d")+'<h2>Retos semanales</h2><p class="mut" style="margin:4px 0 12px">Se renuevan cada semana.</p>'+box(Wk,"w")}
+function claim(k,id,c){var l=k==="d"?S.dc.cl:S.wc.cl;if(l.indexOf(id)>=0)return;l.push(id);S.coins+=c;S.xp+=15;badges();save();toast("+"+c+" monedas y +15 XP");render()}
+function rank(){var all=BOTS.map(function(b){return{n:b[0],x:b[1]}}).concat([{n:S.name+" (tú)",x:S.best,me:1}]).sort(function(a,b){return b.x-a.x});
+return '<h2>Clasificación</h2><p class="mut" style="margin:4px 0 12px">Se ordena por tu mejor puntaje en una carrera. Los demás corredores son perfiles de demostración.</p><div class="card">'+all.map(function(p,i){return '<div class="row'+(p.me?" me":"")+'"><b style="width:28px">'+(i+1)+'</b><b>'+esc(p.n)+'</b><span class="r">'+p.x+' pts</span></div>'}).join("")+'</div>'}
+function profile(){return '<div class="card" style="display:flex;gap:14px;align-items:center"><span style="width:48px;height:48px;border-radius:50%;background:'+S.col+';flex:none"></span><div><h2>'+esc(S.name)+'</h2><span class="mut">Nivel '+lvl(S)+' · '+S.xp+' XP · racha '+S.streak+'</span></div></div><div class="grid"><div class="card"><div class="big">'+S.games+'</div><div class="mut">carreras</div></div><div class="card"><div class="big">'+S.best+'</div><div class="mut">mejor puntaje</div></div><div class="card"><div class="big">'+S.bestLvl+'/'+MAXL+'</div><div class="mut">nivel más alto</div></div><div class="card"><div class="big">'+S.wins+'</div><div class="mut">recorridos completos</div></div></div>'+
+'<div class="card"><h3>Rendimiento por categoría</h3>'+CAT.map(function(c,i){var v=S.cat[i]||[0,0],p=v[1]?Math.round(v[0]/v[1]*100):0;return '<div style="margin:12px 0"><div style="display:flex;justify-content:space-between"><span>'+c+'</span><b>'+(v[1]?p+"% ("+v[0]+"/"+v[1]+")":"sin datos")+'</b></div><div class="bar"><i style="width:'+p+'%"></i></div></div>'}).join("")+'</div>'+
+'<div class="card"><h3 style="margin-bottom:12px">Insignias ('+S.bd.length+'/'+BD.length+')</h3><div class="badges">'+BD.map(function(b){return '<div class="bd'+(S.bd.indexOf(b.id)<0?" off":"")+'"><b>'+b.n+'</b><small>'+b.d+'</small></div>'}).join("")+'</div></div><button class="btn ghost" onclick="reset()">Cerrar sesión y borrar progreso</button>'}
+var ITEMS=[["f","Comodín 50/50","Elimina dos opciones incorrectas en una pregunta.",15],["s","Salvavidas","Si fallas una pregunta de meta, te quedas en el mismo nivel en lugar de retroceder.",40],["e","Escudo inicial","Empiezas la próxima carrera con un escudo que absorbe un golpe.",25]];
+function shop(){return '<h2>Tienda</h2><p class="mut" style="margin:4px 0 12px">Gasta tus monedas ('+S.coins+') en ayudas. Se usan en el momento justo de la partida.</p>'+ITEMS.map(function(it){var can=S.coins>=it[3];return '<div class="card"><div style="display:flex;gap:10px;align-items:center"><b>'+it[1]+'</b><span class="tag" style="margin-left:auto">Tienes '+S.inv[it[0]]+'</span></div><p class="mut" style="margin:6px 0 12px">'+it[2]+'</p><button class="btn '+(can?"":"ghost")+'" '+(can?"":"disabled")+' data-k="'+it[0]+'" onclick="buy(this.dataset.k)">Comprar · '+it[3]+' monedas</button></div>'}).join("")+'<div class="card"><h3>Poderes del camino</h3><p class="mut" style="margin:8px 0 0">🛡️ Escudo: absorbe un golpe. 🧲 Imán: atrae monedas 8 s. ⚡ Doble salto: 10 s. 🐢 Cámara lenta: 6 s. Aparecen como burbujas durante la carrera.</p></div>'}
+function buy(k){var it=ITEMS.filter(function(x){return x[0]===k})[0];if(S.coins<it[3]){toast("No tienes monedas suficientes");return}S.coins-=it[3];S.inv[k]++;save();toast(it[1]+" comprado");render()}
+function fifty(){var Z=G.q;if(!Z||Z.done||Z.ff||S.inv.f<=0)return;Z.ff=true;S.inv.f--;save();var bs=document.querySelectorAll("#qo .op");shuf([0,1,2,3].filter(function(i){return i!==Z.c})).slice(0,2).forEach(function(i){bs[i].disabled=true;bs[i].style.opacity=.3});var f=$("#ff");if(f)f.remove()}
+function useSave(){S.inv.s--;save();rmModal();setLvl(G.lvl)}
+function take(k){var m={s:"🛡️ Escudo activado",m:"🧲 Imán de monedas (8 s)",d:"⚡ Doble salto (10 s)",l:"🐢 Cámara lenta (6 s)"};if(k==="s")G.shield=true;else if(k==="m")G.mag=8;else if(k==="d")G.dj=10;else G.slow=6;toast(m[k])}
+function reset(){if(confirm("Se borrará tu progreso en este dispositivo. ¿Continuar?")){S=null;mem=null;try{localStorage.removeItem("saltador.v1")}catch(e){}view="home";render()}}
+window.addEventListener("keydown",function(e){var k=e.key.toLowerCase();
+if(G&&G.q&&$("#md")){var n=parseInt(k,10);if(n>=1&&n<=4&&!G.q.done)answer(n-1);else if(k==="enter"&&G.q.done&&$("#qf button"))cont();return}
+if(view==="game"&&G&&(k===" "||k==="arrowup"||k==="w")){e.preventDefault();jump()}});
+S=load();if(S){S.inv=S.inv||{f:0,s:0,e:0};touch();save()}render();
+</script>
+</body>
+</html>
